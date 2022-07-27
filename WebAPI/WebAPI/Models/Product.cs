@@ -19,6 +19,7 @@ namespace WebAPI.Models
         {
             this.Found_Product = new HashSet<Found_Product>();
             this.Lost_Product = new HashSet<Lost_Product>();
+            this.Messages_Details = new HashSet<Messages_Details>();
         }
     
         public long Product_ID { get; set; }
@@ -36,5 +37,7 @@ namespace WebAPI.Models
         public virtual ICollection<Found_Product> Found_Product { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Lost_Product> Lost_Product { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Messages_Details> Messages_Details { get; set; }
     }
 }

@@ -5,14 +5,16 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="919b9229ff894c6fa9dc9d158375035e" Name="Diagram1">
-        <EntityTypeShape EntityType="LostandFoundModel.App_Admin" Width="1.5" PointX="7.125" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="LostandFoundModel.App_User" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="LostandFoundModel.Found_Product" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="LostandFoundModel.Lost_Product" Width="1.5" PointX="5.25" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="LostandFoundModel.Product" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
-        <AssociationConnector Association="LostandFoundModel.FK__Product__Postedb__38996AB5" ManuallyRouted="false" />
-        <AssociationConnector Association="LostandFoundModel.FK__Found_Pro__Produ__3E52440B" ManuallyRouted="false" />
-        <AssociationConnector Association="LostandFoundModel.FK__Lost_Prod__Produ__3B75D760" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="LostandFoundModel.App_Admin" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LostandFoundModel.App_User" Width="1.5" PointX="0.75" PointY="3" />
+        <EntityTypeShape EntityType="LostandFoundModel.Found_Product" Width="1.5" PointX="5.25" PointY="1.125" />
+        <EntityTypeShape EntityType="LostandFoundModel.Lost_Product" Width="1.5" PointX="5.25" PointY="3.75" />
+        <EntityTypeShape EntityType="LostandFoundModel.Messages_Details" Width="1.5" PointX="5.25" PointY="6.25" />
+        <EntityTypeShape EntityType="LostandFoundModel.Product" Width="1.5" PointX="3" PointY="3" />
+        <AssociationConnector Association="LostandFoundModel.FK__Product__Postedb__38996AB5" />
+        <AssociationConnector Association="LostandFoundModel.FK__Found_Pro__Produ__3E52440B" />
+        <AssociationConnector Association="LostandFoundModel.FK__Lost_Prod__Produ__3B75D760" />
+        <AssociationConnector Association="LostandFoundModel.FK__Messages__Produc__49C3F6B7" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

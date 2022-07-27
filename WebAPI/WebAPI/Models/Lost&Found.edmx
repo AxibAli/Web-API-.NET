@@ -4,14 +4,14 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="LostandFoundModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="LostandFoundModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="App_Admin">
           <Key>
             <PropertyRef Name="Admin_ID" />
           </Key>
           <Property Name="Admin_ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Admin_FullName" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Admin_Contact" Type="bigint" Nullable="false" />
+          <Property Name="Admin_Contact" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Admin_Gender" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Admin_Email" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Admin_Password" Type="nvarchar(max)" Nullable="false" />
@@ -31,7 +31,7 @@
           <Property Name="User_FullName" Type="nvarchar(max)" Nullable="false" />
           <Property Name="User_Email" Type="nvarchar(max)" Nullable="false" />
           <Property Name="User_Gender" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="User_Contact" Type="bigint" Nullable="false" />
+          <Property Name="User_Contact" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="User_Password" Type="nvarchar(max)" Nullable="false" />
           <Property Name="User_DOB" Type="date" Nullable="false" />
           <Property Name="User_Address" Type="nvarchar(max)" Nullable="false" />
@@ -55,6 +55,16 @@
           <Property Name="Lost_Product_ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Product_ID" Type="bigint" />
           <Property Name="Lost_Product_Status" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Messages_Details">
+          <Key>
+            <PropertyRef Name="Message_ID" />
+          </Key>
+          <Property Name="Message_ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Product_ID" Type="bigint" Nullable="false" />
+          <Property Name="User_Messages" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Message_Date" Type="datetime" Nullable="false" />
+          <Property Name="Sent_By" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -94,6 +104,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Messages__Produc__49C3F6B7">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Messages_Details" Type="Self.Messages_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_ID" />
+            </Principal>
+            <Dependent Role="Messages_Details">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Product__Postedb__38996AB5">
           <End Role="App_User" Type="Self.App_User" Multiplicity="0..1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
@@ -111,6 +133,7 @@
           <EntitySet Name="App_User" EntityType="Self.App_User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Found_Product" EntityType="Self.Found_Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Lost_Product" EntityType="Self.Lost_Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Messages_Details" EntityType="Self.Messages_Details" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Found_Pro__Produ__3E52440B" Association="Self.FK__Found_Pro__Produ__3E52440B">
             <End Role="Product" EntitySet="Product" />
@@ -120,27 +143,54 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="Lost_Product" EntitySet="Lost_Product" />
           </AssociationSet>
+          <AssociationSet Name="FK__Messages__Produc__49C3F6B7" Association="Self.FK__Messages__Produc__49C3F6B7">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Messages_Details" EntitySet="Messages_Details" />
+          </AssociationSet>
           <AssociationSet Name="FK__Product__Postedb__38996AB5" Association="Self.FK__Product__Postedb__38996AB5">
             <End Role="App_User" EntitySet="App_User" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LostandFoundModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="LostandFoundEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="App_Admin" EntityType="LostandFoundModel.App_Admin" />
+          <EntitySet Name="App_User" EntityType="LostandFoundModel.App_User" />
+          <EntitySet Name="Found_Product" EntityType="LostandFoundModel.Found_Product" />
+          <EntitySet Name="Lost_Product" EntityType="LostandFoundModel.Lost_Product" />
+          <EntitySet Name="Messages_Details" EntityType="LostandFoundModel.Messages_Details" />
+          <EntitySet Name="Products" EntityType="LostandFoundModel.Product" />
+          <AssociationSet Name="FK__Product__Postedb__38996AB5" Association="LostandFoundModel.FK__Product__Postedb__38996AB5">
+            <End Role="App_User" EntitySet="App_User" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Found_Pro__Produ__3E52440B" Association="LostandFoundModel.FK__Found_Pro__Produ__3E52440B">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Found_Product" EntitySet="Found_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Lost_Prod__Produ__3B75D760" Association="LostandFoundModel.FK__Lost_Prod__Produ__3B75D760">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Lost_Product" EntitySet="Lost_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Messages__Produc__49C3F6B7" Association="LostandFoundModel.FK__Messages__Produc__49C3F6B7">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Messages_Details" EntitySet="Messages_Details" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="App_Admin">
           <Key>
             <PropertyRef Name="Admin_ID" />
           </Key>
           <Property Name="Admin_ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Admin_FullName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Admin_Contact" Type="Int64" Nullable="false" />
-          <Property Name="Admin_Gender" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Admin_Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Admin_Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Admin_Role" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Admin_FullName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Admin_Contact" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Admin_Gender" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Admin_Email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Admin_Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Admin_Role" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Admin_Created_ON" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Admin_Created_By" Type="Int32" Nullable="false" />
           <Property Name="Admin_Updated_ON" Type="DateTime" Precision="0" />
@@ -153,18 +203,18 @@
             <PropertyRef Name="User_ID" />
           </Key>
           <Property Name="User_ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="User_FullName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="User_Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="User_Gender" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="User_Contact" Type="Int64" Nullable="false" />
-          <Property Name="User_Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="User_FullName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="User_Email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="User_Gender" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="User_Contact" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="User_Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="User_DOB" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="User_Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="User_Address" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="User_Created_ON" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="User_Updated_ON" Type="DateTime" Precision="0" />
           <Property Name="User_IsActive" Type="Boolean" Nullable="false" />
           <Property Name="User_Role" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Products" Relationship="Self.FK__Product__Postedb__38996AB5" FromRole="App_User" ToRole="Product" />
+          <NavigationProperty Name="Products" Relationship="LostandFoundModel.FK__Product__Postedb__38996AB5" FromRole="App_User" ToRole="Product" />
         </EntityType>
         <EntityType Name="Found_Product">
           <Key>
@@ -172,8 +222,8 @@
           </Key>
           <Property Name="Found_Product_ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Product_ID" Type="Int64" />
-          <Property Name="Found_Product_Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Product" Relationship="Self.FK__Found_Pro__Produ__3E52440B" FromRole="Found_Product" ToRole="Product" />
+          <Property Name="Found_Product_Status" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="LostandFoundModel.FK__Found_Pro__Produ__3E52440B" FromRole="Found_Product" ToRole="Product" />
         </EntityType>
         <EntityType Name="Lost_Product">
           <Key>
@@ -181,8 +231,19 @@
           </Key>
           <Property Name="Lost_Product_ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Product_ID" Type="Int64" />
-          <Property Name="Lost_Product_Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Product" Relationship="Self.FK__Lost_Prod__Produ__3B75D760" FromRole="Lost_Product" ToRole="Product" />
+          <Property Name="Lost_Product_Status" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="LostandFoundModel.FK__Lost_Prod__Produ__3B75D760" FromRole="Lost_Product" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Messages_Details">
+          <Key>
+            <PropertyRef Name="Message_ID" />
+          </Key>
+          <Property Name="Message_ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Product_ID" Type="Int64" Nullable="false" />
+          <Property Name="User_Messages" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Message_Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Sent_By" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="LostandFoundModel.FK__Messages__Produc__49C3F6B7" FromRole="Messages_Details" ToRole="Product" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -190,20 +251,21 @@
           </Key>
           <Property Name="Product_ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Postedby" Type="Int64" />
-          <Property Name="Product_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Product_Category" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Product_Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Product_Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Product_Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Product_Category" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Product_Image" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Product_Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Product_Created_ON" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Product_Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Product_Location" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Product_IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="App_User" Relationship="Self.FK__Product__Postedb__38996AB5" FromRole="Product" ToRole="App_User" />
-          <NavigationProperty Name="Found_Product" Relationship="Self.FK__Found_Pro__Produ__3E52440B" FromRole="Product" ToRole="Found_Product" />
-          <NavigationProperty Name="Lost_Product" Relationship="Self.FK__Lost_Prod__Produ__3B75D760" FromRole="Product" ToRole="Lost_Product" />
+          <NavigationProperty Name="App_User" Relationship="LostandFoundModel.FK__Product__Postedb__38996AB5" FromRole="Product" ToRole="App_User" />
+          <NavigationProperty Name="Found_Product" Relationship="LostandFoundModel.FK__Found_Pro__Produ__3E52440B" FromRole="Product" ToRole="Found_Product" />
+          <NavigationProperty Name="Lost_Product" Relationship="LostandFoundModel.FK__Lost_Prod__Produ__3B75D760" FromRole="Product" ToRole="Lost_Product" />
+          <NavigationProperty Name="Messages_Details" Relationship="LostandFoundModel.FK__Messages__Produc__49C3F6B7" FromRole="Product" ToRole="Messages_Details" />
         </EntityType>
         <Association Name="FK__Product__Postedb__38996AB5">
-          <End Role="App_User" Type="Self.App_User" Multiplicity="0..1" />
-          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <End Type="LostandFoundModel.App_User" Role="App_User" Multiplicity="0..1" />
+          <End Type="LostandFoundModel.Product" Role="Product" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="App_User">
               <PropertyRef Name="User_ID" />
@@ -214,8 +276,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Found_Pro__Produ__3E52440B">
-          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
-          <End Role="Found_Product" Type="Self.Found_Product" Multiplicity="*" />
+          <End Type="LostandFoundModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="LostandFoundModel.Found_Product" Role="Found_Product" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Product">
               <PropertyRef Name="Product_ID" />
@@ -226,8 +288,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Lost_Prod__Produ__3B75D760">
-          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
-          <End Role="Lost_Product" Type="Self.Lost_Product" Multiplicity="*" />
+          <End Type="LostandFoundModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="LostandFoundModel.Lost_Product" Role="Lost_Product" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Product">
               <PropertyRef Name="Product_ID" />
@@ -237,25 +299,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="LostandFoundEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="App_Admin" EntityType="Self.App_Admin" />
-          <EntitySet Name="App_User" EntityType="Self.App_User" />
-          <EntitySet Name="Found_Product" EntityType="Self.Found_Product" />
-          <EntitySet Name="Lost_Product" EntityType="Self.Lost_Product" />
-          <EntitySet Name="Products" EntityType="Self.Product" />
-          <AssociationSet Name="FK__Product__Postedb__38996AB5" Association="Self.FK__Product__Postedb__38996AB5">
-            <End Role="App_User" EntitySet="App_User" />
-            <End Role="Product" EntitySet="Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Found_Pro__Produ__3E52440B" Association="Self.FK__Found_Pro__Produ__3E52440B">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="Found_Product" EntitySet="Found_Product" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Lost_Prod__Produ__3B75D760" Association="Self.FK__Lost_Prod__Produ__3B75D760">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="Lost_Product" EntitySet="Lost_Product" />
-          </AssociationSet>
-        </EntityContainer>
+        <Association Name="FK__Messages__Produc__49C3F6B7">
+          <End Type="LostandFoundModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="LostandFoundModel.Messages_Details" Role="Messages_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_ID" />
+            </Principal>
+            <Dependent Role="Messages_Details">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -265,70 +320,81 @@
           <EntitySetMapping Name="App_Admin">
             <EntityTypeMapping TypeName="LostandFoundModel.App_Admin">
               <MappingFragment StoreEntitySet="App_Admin">
-                <ScalarProperty Name="Admin_ID" ColumnName="Admin_ID" />
-                <ScalarProperty Name="Admin_FullName" ColumnName="Admin_FullName" />
-                <ScalarProperty Name="Admin_Contact" ColumnName="Admin_Contact" />
-                <ScalarProperty Name="Admin_Gender" ColumnName="Admin_Gender" />
-                <ScalarProperty Name="Admin_Email" ColumnName="Admin_Email" />
-                <ScalarProperty Name="Admin_Password" ColumnName="Admin_Password" />
-                <ScalarProperty Name="Admin_Role" ColumnName="Admin_Role" />
-                <ScalarProperty Name="Admin_Created_ON" ColumnName="Admin_Created_ON" />
-                <ScalarProperty Name="Admin_Created_By" ColumnName="Admin_Created_By" />
-                <ScalarProperty Name="Admin_Updated_ON" ColumnName="Admin_Updated_ON" />
-                <ScalarProperty Name="Admin_Updated_By" ColumnName="Admin_Updated_By" />
-                <ScalarProperty Name="Admin_IsActive" ColumnName="Admin_IsActive" />
                 <ScalarProperty Name="Admin_DOB" ColumnName="Admin_DOB" />
+                <ScalarProperty Name="Admin_IsActive" ColumnName="Admin_IsActive" />
+                <ScalarProperty Name="Admin_Updated_By" ColumnName="Admin_Updated_By" />
+                <ScalarProperty Name="Admin_Updated_ON" ColumnName="Admin_Updated_ON" />
+                <ScalarProperty Name="Admin_Created_By" ColumnName="Admin_Created_By" />
+                <ScalarProperty Name="Admin_Created_ON" ColumnName="Admin_Created_ON" />
+                <ScalarProperty Name="Admin_Role" ColumnName="Admin_Role" />
+                <ScalarProperty Name="Admin_Password" ColumnName="Admin_Password" />
+                <ScalarProperty Name="Admin_Email" ColumnName="Admin_Email" />
+                <ScalarProperty Name="Admin_Gender" ColumnName="Admin_Gender" />
+                <ScalarProperty Name="Admin_Contact" ColumnName="Admin_Contact" />
+                <ScalarProperty Name="Admin_FullName" ColumnName="Admin_FullName" />
+                <ScalarProperty Name="Admin_ID" ColumnName="Admin_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="App_User">
             <EntityTypeMapping TypeName="LostandFoundModel.App_User">
               <MappingFragment StoreEntitySet="App_User">
-                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
-                <ScalarProperty Name="User_FullName" ColumnName="User_FullName" />
-                <ScalarProperty Name="User_Email" ColumnName="User_Email" />
-                <ScalarProperty Name="User_Gender" ColumnName="User_Gender" />
-                <ScalarProperty Name="User_Contact" ColumnName="User_Contact" />
-                <ScalarProperty Name="User_Password" ColumnName="User_Password" />
-                <ScalarProperty Name="User_DOB" ColumnName="User_DOB" />
-                <ScalarProperty Name="User_Address" ColumnName="User_Address" />
-                <ScalarProperty Name="User_Created_ON" ColumnName="User_Created_ON" />
-                <ScalarProperty Name="User_Updated_ON" ColumnName="User_Updated_ON" />
-                <ScalarProperty Name="User_IsActive" ColumnName="User_IsActive" />
                 <ScalarProperty Name="User_Role" ColumnName="User_Role" />
+                <ScalarProperty Name="User_IsActive" ColumnName="User_IsActive" />
+                <ScalarProperty Name="User_Updated_ON" ColumnName="User_Updated_ON" />
+                <ScalarProperty Name="User_Created_ON" ColumnName="User_Created_ON" />
+                <ScalarProperty Name="User_Address" ColumnName="User_Address" />
+                <ScalarProperty Name="User_DOB" ColumnName="User_DOB" />
+                <ScalarProperty Name="User_Password" ColumnName="User_Password" />
+                <ScalarProperty Name="User_Contact" ColumnName="User_Contact" />
+                <ScalarProperty Name="User_Gender" ColumnName="User_Gender" />
+                <ScalarProperty Name="User_Email" ColumnName="User_Email" />
+                <ScalarProperty Name="User_FullName" ColumnName="User_FullName" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Found_Product">
             <EntityTypeMapping TypeName="LostandFoundModel.Found_Product">
               <MappingFragment StoreEntitySet="Found_Product">
-                <ScalarProperty Name="Found_Product_ID" ColumnName="Found_Product_ID" />
-                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
                 <ScalarProperty Name="Found_Product_Status" ColumnName="Found_Product_Status" />
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+                <ScalarProperty Name="Found_Product_ID" ColumnName="Found_Product_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Lost_Product">
             <EntityTypeMapping TypeName="LostandFoundModel.Lost_Product">
               <MappingFragment StoreEntitySet="Lost_Product">
-                <ScalarProperty Name="Lost_Product_ID" ColumnName="Lost_Product_ID" />
-                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
                 <ScalarProperty Name="Lost_Product_Status" ColumnName="Lost_Product_Status" />
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+                <ScalarProperty Name="Lost_Product_ID" ColumnName="Lost_Product_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Messages_Details">
+            <EntityTypeMapping TypeName="LostandFoundModel.Messages_Details">
+              <MappingFragment StoreEntitySet="Messages_Details">
+                <ScalarProperty Name="Sent_By" ColumnName="Sent_By" />
+                <ScalarProperty Name="Message_Date" ColumnName="Message_Date" />
+                <ScalarProperty Name="User_Messages" ColumnName="User_Messages" />
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+                <ScalarProperty Name="Message_ID" ColumnName="Message_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="LostandFoundModel.Product">
               <MappingFragment StoreEntitySet="Product">
-                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
-                <ScalarProperty Name="Postedby" ColumnName="Postedby" />
-                <ScalarProperty Name="Product_Name" ColumnName="Product_Name" />
-                <ScalarProperty Name="Product_Category" ColumnName="Product_Category" />
-                <ScalarProperty Name="Product_Image" ColumnName="Product_Image" />
-                <ScalarProperty Name="Product_Description" ColumnName="Product_Description" />
-                <ScalarProperty Name="Product_Created_ON" ColumnName="Product_Created_ON" />
-                <ScalarProperty Name="Product_Location" ColumnName="Product_Location" />
                 <ScalarProperty Name="Product_IsActive" ColumnName="Product_IsActive" />
+                <ScalarProperty Name="Product_Location" ColumnName="Product_Location" />
+                <ScalarProperty Name="Product_Created_ON" ColumnName="Product_Created_ON" />
+                <ScalarProperty Name="Product_Description" ColumnName="Product_Description" />
+                <ScalarProperty Name="Product_Image" ColumnName="Product_Image" />
+                <ScalarProperty Name="Product_Category" ColumnName="Product_Category" />
+                <ScalarProperty Name="Product_Name" ColumnName="Product_Name" />
+                <ScalarProperty Name="Postedby" ColumnName="Postedby" />
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

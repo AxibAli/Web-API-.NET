@@ -16,7 +16,7 @@ namespace WebAPI.Models
     {
         public long Admin_ID { get; set; }
         public string Admin_FullName { get; set; }
-        public long Admin_Contact { get; set; }
+        public string Admin_Contact { get; set; }
         public string Admin_Gender { get; set; }
         public string Admin_Email { get; set; }
         public string Admin_Password { get; set; }

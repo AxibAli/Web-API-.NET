@@ -29,6 +29,7 @@ namespace WebAPI.Models
         public virtual DbSet<App_User> App_User { get; set; }
         public virtual DbSet<Found_Product> Found_Product { get; set; }
         public virtual DbSet<Lost_Product> Lost_Product { get; set; }
+        public virtual DbSet<Messages_Details> Messages_Details { get; set; }
         public virtual DbSet<Product> Products { get; set; }
     }
 }
