@@ -44,5 +44,18 @@ namespace WebAPI.Controllers
             App_Admin data = db.App_Admin.Where(x => x.Admin_ID == id).FirstOrDefault();
             return Ok(data);
         }
+
+        [System.Web.Http.HttpPut]
+        public IHttpActionResult Update(App_Admin data) 
+        {
+            App_Admin ad = db.App_Admin.Where(x => x.Admin_ID == data.Admin_ID).SingleOrDefault();
+            ad.Admin_FullName= data.Admin_FullName;
+            ad.Admin_Gender= data.Admin_Gender;
+            ad.Admin_Email= data.Admin_Email;
+            ad.Admin_Contact= data.Admin_Contact;
+            ad.Admin_DOB= data.Admin_DOB;
+            db.SaveChanges();
+            return Ok();
+        } 
     }
 }

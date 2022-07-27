@@ -83,5 +83,34 @@ namespace WebAPI.Controllers
             }
             return View(data);
         }
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            App_Admin appadmin = null;
+            hc.BaseAddress = new Uri("https://localhost:44360/api/webapi/admindetails");
+            var consume = hc.GetAsync("admindetails?id=" + id.ToString());
+            consume.Wait();
+            var test = consume.Result;
+            if (test.IsSuccessStatusCode)
+            {
+                var display = test.Content.ReadAsAsync<App_Admin>();
+                display.Wait();
+                appadmin=display.Result;
+            }
+            return View(appadmin);
+        }
+        [HttpPost]
+        public ActionResult Edit(App_Admin data)
+        {
+            hc.BaseAddress = new Uri("https://localhost:44360/api/webapi/Update");
+            var consume = hc.PutAsJsonAsync<App_Admin>("update", data);
+            consume.Wait();
+            var test = consume.Result;
+            if (test.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Admins");
+            }
+            return View();
+        }
     }
 }

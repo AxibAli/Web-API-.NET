@@ -240,6 +240,7 @@
     <Content Include="Views\Consume\SendData.cshtml" />
     <Content Include="Views\Consume\delete.cshtml" />
     <Content Include="Views\Consume\Details.cshtml" />
+    <Content Include="Views\Consume\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
