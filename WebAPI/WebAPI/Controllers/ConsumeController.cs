@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
@@ -12,11 +13,6 @@ namespace WebAPI.Controllers
     {
         HttpClient hc = new HttpClient();
 
-        // GET: Consume
-        public ActionResult Index()
-        {
-            return View();
-        }
         public ActionResult Admins()
         {
             List<App_Admin> list = new List<App_Admin>();
@@ -112,5 +108,30 @@ namespace WebAPI.Controllers
             }
             return View();
         }
+
+        [HttpGet]
+        public ActionResult login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult login(LoginModel logindata )
+        {
+            hc.BaseAddress = new Uri("https://localhost:44360/api/webapi/login");
+            var consume = hc.PostAsJsonAsync("login", logindata);
+
+            //var consume = hc.PutAsJsonAsync<LoginModel>("login",logindata);
+
+            consume.Wait();
+            var test = consume.Result;
+
+            if (test.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Admins");
+            }
+            return View();
+        }
+
     }
 }

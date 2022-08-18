@@ -157,6 +157,7 @@
     <Compile Include="Models\Found_Product.cs">
       <DependentUpon>Lost&amp;Found.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\Lost&amp;Found.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -188,6 +189,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -241,6 +243,7 @@
     <Content Include="Views\Consume\delete.cshtml" />
     <Content Include="Views\Consume\Details.cshtml" />
     <Content Include="Views\Consume\Edit.cshtml" />
+    <Content Include="Views\Consume\login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
